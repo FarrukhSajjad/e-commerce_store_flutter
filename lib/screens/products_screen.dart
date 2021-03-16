@@ -6,6 +6,7 @@ import 'package:shopify/constants.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:shopify/modals/products.dart';
+import 'package:shopify/screens/display_product.dart';
 
 class ProductsScreen extends StatefulWidget {
   final String categoryTitle;
@@ -71,46 +72,55 @@ class _ProductsScreenState extends State<ProductsScreen> {
             ),
             itemBuilder: (BuildContext context, int index) {
               var products = snapshot.data.products[index];
-              return Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          products.images[0].src,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                    return DisplayProduct(
+                      productId: products.id.toString(),
+                    );
+                  }));
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            products.images[0].src,
+                          ),
+                          fit: BoxFit.contain,
                         ),
-                        fit: BoxFit.contain,
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ListTile(
-                          title: Text(
-                            products.title,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 18.0,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ListTile(
+                            title: Text(
+                              products.title,
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Rs. ${products.variants[0].price}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                          subtitle: Text(
-                            "Rs. ${products.variants[0].price}",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           );

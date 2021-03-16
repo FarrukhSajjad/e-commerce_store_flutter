@@ -9,8 +9,7 @@ class APIHandler {
   Future<Welcome> getCollections() async {
     var collectionsModel;
     var client = http.Client();
-    var url =
-        "https://4111c8422f78922a732caa88f4f25397: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@magicalyyy.myshopify.com/admin/api/2021-01/custom_collections.json";
+    var url = "";
     var response = await client.get(url);
 
     if (response.statusCode == 200) {
